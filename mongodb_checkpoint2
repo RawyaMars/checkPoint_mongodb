@@ -1,0 +1,293 @@
+rawya@rawya-virtual-machine:~$ sudo systemctl start mongod
+[sudo] password for rawya: 
+rawya@rawya-virtual-machine:~$ sudo systemctl status mongod
+● mongod.service - MongoDB Database Server
+     Loaded: loaded (/lib/systemd/system/mongod.service; disabled; vendor prese>
+     Active: active (running) since Thu 2023-02-16 06:04:42 EST; 3s ago
+       Docs: https://docs.mongodb.org/manual
+   Main PID: 64055 (mongod)
+     Memory: 218.4M
+        CPU: 2.041s
+     CGroup: /system.slice/mongod.service
+             └─64055 /usr/bin/mongod --config /etc/mongod.conf
+
+Feb 16 06:04:42 rawya-virtual-machine systemd[1]: Started MongoDB Database Serv>
+...skipping...
+● mongod.service - MongoDB Database Server
+     Loaded: loaded (/lib/systemd/system/mongod.service; disabled; vendor prese>
+     Active: active (running) since Thu 2023-02-16 06:04:42 EST; 3s ago
+       Docs: https://docs.mongodb.org/manual
+   Main PID: 64055 (mongod)
+     Memory: 218.4M
+        CPU: 2.041s
+     CGroup: /system.slice/mongod.service
+             └─64055 /usr/bin/mongod --config /etc/mongod.conf
+
+Feb 16 06:04:42 rawya-virtual-machine systemd[1]: Started MongoDB Database Serv>
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+lines 1-11/11 (END)
+rawya@rawya-virtual-machine:~$ sudo systemctl start mongod
+rawya@rawya-virtual-machine:~$ mongosh
+Current Mongosh Log ID:	63ee0dd4570248f47f6ffc54
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.7.1
+Using MongoDB:		6.0.4
+Using Mongosh:		1.7.1
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2023-02-16T06:04:44.251-05:00: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine. See http://dochub.mongodb.org/core/prodnotes-filesystem
+   2023-02-16T06:04:45.324-05:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+   2023-02-16T06:04:45.325-05:00: vm.max_map_count is too low
+------
+
+------
+   Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+   metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+   
+   The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+   and anyone you share the URL with. MongoDB may use this information to make product
+   improvements and to suggest MongoDB products and deployment options to you.
+   
+   To enable free monitoring, run the following command: db.enableFreeMonitoring()
+   To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+------
+
+test> db.movies.deleteMany({})
+{ acknowledged: true, deletedCount: 0 }
+test> db.movies.deleteMany()
+MongoshInvalidInputError: [COMMON-10001] Missing required argument at position 0 (Collection.deleteMany)
+test> db.movies.deleteMany()
+MongoshInvalidInputError: [COMMON-10001] Missing required argument at position 0 (Collection.deleteMany)
+test> db.ContactList.deleteMany({})
+{ acknowledged: true, deletedCount: 0 }
+test> db.ContactList.deleteMany({})
+{ acknowledged: true, deletedCount: 0 }
+test> db.ContactList.find()
+
+test> db.ContactList.insertMany([{"LastName": "Ben Lahmer", "FirstName": "Fares", "Email": "fares@gmail.com", "age":26},{"LastName": "Kefi", "FirstName": "Seif", "Email": "kefi@gmail.com", "age":15},{"LastName": "Fatnassi", "FirstName": "Sarra", "Email": "sarra.f@gmail.com", "age":40},{"LastName": "Ben Yahia", "FirstName": "Rym", "age":4},{"LastName": "Cherif", "FirstName": "Sami", "age":3}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("63ee0fbf41794636e169f839"),
+    '1': ObjectId("63ee0fbf41794636e169f83a"),
+    '2': ObjectId("63ee0fbf41794636e169f83b"),
+    '3': ObjectId("63ee0fbf41794636e169f83c"),
+    '4': ObjectId("63ee0fbf41794636e169f83d")
+  }
+}
+test> db.ContactList.find()
+[
+  {
+    _id: ObjectId("63ee0fbf41794636e169f839"),
+    LastName: 'Ben Lahmer',
+    FirstName: 'Fares',
+    Email: 'fares@gmail.com',
+    age: 26
+  },
+  {
+    _id: ObjectId("63ee0fbf41794636e169f83a"),
+    LastName: 'Kefi',
+    FirstName: 'Seif',
+    Email: 'kefi@gmail.com',
+    age: 15
+  },
+  {
+    _id: ObjectId("63ee0fbf41794636e169f83b"),
+    LastName: 'Fatnassi',
+    FirstName: 'Sarra',
+    Email: 'sarra.f@gmail.com',
+    age: 40
+  },
+  {
+    _id: ObjectId("63ee0fbf41794636e169f83c"),
+    LastName: 'Ben Yahia',
+    FirstName: 'Rym',
+    age: 4
+  },
+  {
+    _id: ObjectId("63ee0fbf41794636e169f83d"),
+    LastName: 'Cherif',
+    FirstName: 'Sami',
+    age: 3
+  }
+]
+test> db.ContactList.find({_id:ObjectId("63ee0fbf41794636e169f83d")})
+[
+  {
+    _id: ObjectId("63ee0fbf41794636e169f83d"),
+    LastName: 'Cherif',
+    FirstName: 'Sami',
+    age: 3
+  }
+]
+test> db.ContactList.find({age:{$in:[0,18]}})
+
+test> db.ContactList.find({age:{"$gte" : 18}})
+[
+  {
+    _id: ObjectId("63ee0fbf41794636e169f839"),
+    LastName: 'Ben Lahmer',
+    FirstName: 'Fares',
+    Email: 'fares@gmail.com',
+    age: 26
+  },
+  {
+    _id: ObjectId("63ee0fbf41794636e169f83b"),
+    LastName: 'Fatnassi',
+    FirstName: 'Sarra',
+    Email: 'sarra.f@gmail.com',
+    age: 40
+  }
+]
+test> db.ContactList.find({age:{"$gte" : 18},LastName:"/.lah./"})
+
+test> db.ContactList.find({age:{"$gte" : 18},LastName:"/lah/"})
+
+test> db.ContactList.find({age:{"$gte" : 18},LastName:"lah"})
+
+test> db.ContactList.find({age:{"$gte" : 18},LastName:/lah/})
+
+test> db.ContactList.find({age:{"$gte" : 18},LastName:/.*lah.*/})
+
+test> db.ContactList.find({age:{"$gte" : 18},LastName:{$regex:'*lah*'}})
+MongoServerError: Regular expression is invalid: nothing to repeat
+test> db.ContactList.find({age:{"$gte" : 18},LastName:"*lah*"})
+
+test> db.ContactList.find({age:{"$gte" : 18},LastName: { $regex : "lah" }})
+
+test> db.ContactList.find({age:{"$gte" : 18},LastName: { $regex : "ah" }})
+[
+  {
+    _id: ObjectId("63ee0fbf41794636e169f839"),
+    LastName: 'Ben Lahmer',
+    FirstName: 'Fares',
+    Email: 'fares@gmail.com',
+    age: 26
+  }
+]
+test> db.ContactList.updateOne({LastName:"kefi"},{$set:{FirstName:"Anis"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+test> db.ContactList.updateOne({LastName:"Kefi"},{$set:{FirstName:"Anis"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+test> db.ContactList.find()
+[
+  {
+    _id: ObjectId("63ee0fbf41794636e169f839"),
+    LastName: 'Ben Lahmer',
+    FirstName: 'Fares',
+    Email: 'fares@gmail.com',
+    age: 26
+  },
+  {
+    _id: ObjectId("63ee0fbf41794636e169f83a"),
+    LastName: 'Kefi',
+    FirstName: 'Anis',
+    Email: 'kefi@gmail.com',
+    age: 15
+  },
+  {
+    _id: ObjectId("63ee0fbf41794636e169f83b"),
+    LastName: 'Fatnassi',
+    FirstName: 'Sarra',
+    Email: 'sarra.f@gmail.com',
+    age: 40
+  },
+  {
+    _id: ObjectId("63ee0fbf41794636e169f83c"),
+    LastName: 'Ben Yahia',
+    FirstName: 'Rym',
+    age: 4
+  },
+  {
+    _id: ObjectId("63ee0fbf41794636e169f83d"),
+    LastName: 'Cherif',
+    FirstName: 'Sami',
+    age: 3
+  }
+]
+test> db.ContactList.deleteMany({age:{$lte:3}})
+{ acknowledged: true, deletedCount: 1 }
+test> db.ContactList.find()
+[
+  {
+    _id: ObjectId("63ee0fbf41794636e169f839"),
+    LastName: 'Ben Lahmer',
+    FirstName: 'Fares',
+    Email: 'fares@gmail.com',
+    age: 26
+  },
+  {
+    _id: ObjectId("63ee0fbf41794636e169f83a"),
+    LastName: 'Kefi',
+    FirstName: 'Anis',
+    Email: 'kefi@gmail.com',
+    age: 15
+  },
+  {
+    _id: ObjectId("63ee0fbf41794636e169f83b"),
+    LastName: 'Fatnassi',
+    FirstName: 'Sarra',
+    Email: 'sarra.f@gmail.com',
+    age: 40
+  },
+  {
+    _id: ObjectId("63ee0fbf41794636e169f83c"),
+    LastName: 'Ben Yahia',
+    FirstName: 'Rym',
+    age: 4
+  }
+]
+test> db.ContactList.deleteMany({age:{$lte:5}})
+{ acknowledged: true, deletedCount: 1 }
+test> db.ContactList.find()
+[
+  {
+    _id: ObjectId("63ee0fbf41794636e169f839"),
+    LastName: 'Ben Lahmer',
+    FirstName: 'Fares',
+    Email: 'fares@gmail.com',
+    age: 26
+  },
+  {
+    _id: ObjectId("63ee0fbf41794636e169f83a"),
+    LastName: 'Kefi',
+    FirstName: 'Anis',
+    Email: 'kefi@gmail.com',
+    age: 15
+  },
+  {
+    _id: ObjectId("63ee0fbf41794636e169f83b"),
+    LastName: 'Fatnassi',
+    FirstName: 'Sarra',
+    Email: 'sarra.f@gmail.com',
+    age: 40
+  }
+]
+test> 
+
+

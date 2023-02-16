@@ -1,0 +1,43 @@
+wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+echo "mongodb-org hold" | sudo dpkg --set-selections
+echo "mongodb-org-database hold" | sudo dpkg --set-selections
+echo "mongodb-org-server hold" | sudo dpkg --set-selections
+echo "mongodb-mongosh hold" | sudo dpkg --set-selections
+echo "mongodb-org-mongos hold" | sudo dpkg --set-selections
+echo "mongodb-org-tools hold" | sudo dpkg --set-selections
+sudo systemctl start mongod
+sudo systemctl status mongod
+mongod --version
+
+mongosh
+
+test> show dbs
+admin   40.00 KiB
+config  60.00 KiB
+local   40.00 KiB
+test> use contact
+switched to db contact
+contact> db
+contact
+contact> db.ContactList.insertOne({"name" : "Rawya", "mail" : "rawyamars@gmail.com","age":26})
+{
+  acknowledged: true,
+  insertedId: ObjectId("63ed037c707ef8afd444fb97")
+}
+contact> db
+contact
+contact> db.ContactList.find()
+[
+  {
+    _id: ObjectId("63ed037c707ef8afd444fb97"),
+    name: 'Rawya',
+    mail: 'rawyamars@gmail.com',
+    age: 26
+  }
+]
+contact> 
+
